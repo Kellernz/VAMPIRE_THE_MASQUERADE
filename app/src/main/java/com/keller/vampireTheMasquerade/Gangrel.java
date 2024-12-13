@@ -4,38 +4,59 @@
  */
 package com.keller.vampireTheMasquerade;
 
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  *
  * @author Guilherme
  */
-public class Gangrel extends Character {
-
+public class Gangrel extends Creature {
+    private boolean animalFormActive;
+    private int animalFormDuration;
   
-    public Gangrel() {
-        super("", 130, 40, 16, 12, 7); 
+    public Gangrel(String name) {
+        super(name, 130, 40, 16, 12, 7); 
     }
 
-
-    public void lightAttack() {
+    public int lightAttack() {
         int damage = getStrength() + (getAgility() / 2); 
         System.out.println(getName() + " performs a light attack dealing " + damage + " damage!");
+	return damage;
     }
 
-    public void heavyAttack() {
+    public int heavyAttack() {
         int damage = getStrength() * 2; 
         System.out.println(getName() + " performs a heavy attack dealing " + damage + " damage!");
+	return damage;
     }
 
+    public void update() {
+	if (animalFormActive) {
+	   animalFormDuration -= 1;
+	   if (animalFormDuration <= 0) {
+		animalFormActive = false;
+		setAgility(getAgility() - 12);
+	   }
+	}
+    }
    
     public void animalForm() {
+	if (animalFormActive) {
+	   System.out.println("You are already on the Animal Form!");
+	   return;
+	}
+
         if (getMp() >= 20) {
             setAgility(getAgility() + 12); 
             setMp(getMp() - 20); 
             System.out.println(getName() + " transforms into an animal form, gaining 12 additional agility (20 MP consumed)!");
+	    animalFormDuration = 4;
         } else {
             System.out.println("Not enough MP to use Animal Form!");
         }
     }
+
     @Override
     public void rollDice() {
         Scanner scanner = new Scanner(System.in);
@@ -49,7 +70,8 @@ public class Gangrel extends Character {
             this.strength = random.nextInt(11) + 20;
             this.agility = random.nextInt(11) + 6;
             this.arcane = random.nextInt(11) + 7;
-            System.out.println("The blood moon is pleased! This are yor new stats: " + this);
+            System.out.println("The blood moon is pleased! This are yor new stats: ");
+	    this.print();
         } else {
             System.out.println("You defy the blood moon, thus, thy shall start with base attributes;.");
         }

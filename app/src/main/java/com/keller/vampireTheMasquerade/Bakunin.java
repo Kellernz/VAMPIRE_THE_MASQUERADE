@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package com.keller.vampireTheMasquerade;
 
-package com.keller.vampireTheMasquered;
+import java.util.Random;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.Scanner;
 
 public class Bakunin extends Brujah {
     public Bakunin() {
-        super("Bakunin", 120, 50, 18, 10, 8);
+        super("Bakunin");
     }
 
     @Override public void rollDice() {

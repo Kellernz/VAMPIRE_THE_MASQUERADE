@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.keller.vampireTheMasquered;
+package com.keller.vampireTheMasquerade;
 
 /**
  *
@@ -11,19 +11,21 @@ package com.keller.vampireTheMasquered;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Brujah extends Character {
-    public Brujah() {
-        super("", 120, 50, 18, 10, 8);
+public class Brujah extends Creature {
+    public Brujah(String name) {
+        super(name, 120, 50, 18, 10, 8);
     }
 
-    public void lightAttack() {
+    public int lightAttack() {
         int damage = getStrength() / 2;
         System.out.println(getName() + " performs a light attack dealing " + damage + " damage!");
+	return damage;
     }
 
-    public void heavyAttack() {
+    public int heavyAttack() {
         int damage = getStrength() * 2;
         System.out.println(getName() + " performs a heavy attack dealing " + damage + " damage!");
+	return damage;
     }
 
     @Override public void rollDice() {
@@ -38,7 +40,8 @@ public class Brujah extends Character {
             this.strength = random.nextInt(21) + 10;
             this.agility = random.nextInt(11) + 4;
             this.arcane = random.nextInt(11) + 2;
-            System.out.println("The blood moon is pleased! This are yor new stats: " + this);
+            System.out.println("The blood moon is pleased! This are yor new stats: ");
+	    this.print();
         } else {
             System.out.println("You defy the blood moon, thus, thy shall start with base attributes;.");
         }

@@ -11,7 +11,7 @@ package com.keller.vampireTheMasquerade;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Character {
+public abstract class Creature {
     protected String name;
     protected int hp;       
     protected int mp;       
@@ -19,7 +19,7 @@ public class Character {
     protected int agility;  
     protected int arcane;   
 
-    public Character(String name, int hp, int mp, int strength, int agility, int arcane) {
+    public Creature(String name, int hp, int mp, int strength, int agility, int arcane) {
         this.name = name;
         this.hp = hp;
         this.mp = mp;
@@ -29,7 +29,7 @@ public class Character {
     }
 
     
-    public Character() {
+    public Creature() {
         this("", 100, 50, 10, 10, 10);
     }
 
@@ -70,15 +70,29 @@ public class Character {
     }
 
     public void setAgility(int agility) {
-        this.agility = Math.max(agility, 0); 
+        this.agility = Math.max(agility, 0);
     }
 
     public int getArcane() {
         return arcane;
     }
 
+    public void takeDamage(int amount) {
+	this.hp -= amount;
+	System.out.println(getName() + " takes " + amount + " damage!");
+    }
+
     public void setArcane(int arcane) {
         this.arcane = Math.max(arcane, 0);
+    }
+
+    public void print() {
+        System.out.println(getName());
+	System.out.println("HP: " + hp);
+	System.out.println("MP: " + mp);
+	System.out.println("Strength: " + strength);
+	System.out.println("Agility: " + agility);
+	System.out.println("Arcane: " + arcane);
     }
 
     public abstract void rollDice();

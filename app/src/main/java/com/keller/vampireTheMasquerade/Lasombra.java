@@ -4,31 +4,36 @@
  */
 package com.keller.vampireTheMasquerade;
 
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  *
  * @author Guilherme
  */
-public class Lasombra extends Character {
+public class Lasombra extends Creature {
     private boolean shadowVeilActive; 
     private int shadowVeilDuration;   
 
  
-    public Lasombra() {
-        super("",100, 60, 12, 10, 15); 
+    public Lasombra(String name) {
+        super(name,100, 60, 12, 10, 15); 
         this.shadowVeilActive = false;
         this.shadowVeilDuration = 0;
     }
 
 
-    public void lightAttack() {
+    public int lightAttack() {
         int damage = getStrength() + (getArcane() / 4); 
         System.out.println(getName() + " performs a light attack dealing " + damage + " damage!");
+	return damage;
     }
 
   
-    public void heavyAttack() {
+    public int heavyAttack() {
         int damage = (getStrength() * 2) + (getArcane() / 2); 
         System.out.println(getName() + " performs a heavy shadow attack dealing " + damage + " damage!");
+	return damage;
     }
 
 
@@ -46,15 +51,16 @@ public class Lasombra extends Character {
     }
 
     // Method to reduce incoming damage
-    public int takeDamage(int damage) {
+    @Override
+    public void takeDamage(int damage) {
         if (shadowVeilActive) {
             damage /= 1.75; 
             System.out.println(getName() + " takes reduced damage due to Shadow Veil!");
         } else {
             System.out.println(getName() + " takes " + damage + " damage.");
         }
+
         setHp(Math.max(getHp() - damage, 0)); 
-        return damage;
     }
 
 
@@ -67,7 +73,7 @@ public class Lasombra extends Character {
             }
         }
     }
-        @Overide
+        @Override
 	public void rollDice() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("It is time, the light from the moon shines bright and the roll of dices will determine the attributes of your vampire (press enter)");
@@ -80,7 +86,8 @@ public class Lasombra extends Character {
             this.strength = random.nextInt(11) + 8;
             this.agility = random.nextInt(11) + 10;
             this.arcane = random.nextInt(21) + 14;
-            System.out.println("The blood moon is pleased! This are yor new stats: " + this);
+            System.out.println("The blood moon is pleased! This are yor new stats: ");
+	    this.print();
         } else {
             System.out.println("You defy the blood moon, thus, thy shall start with base attributes;.");
         }

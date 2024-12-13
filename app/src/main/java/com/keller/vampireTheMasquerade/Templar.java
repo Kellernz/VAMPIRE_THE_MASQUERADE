@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.keller.vampireTheMasquerade;
 
 /**
@@ -10,7 +9,9 @@ package com.keller.vampireTheMasquerade;
  * @author Guilherme
  */
 
-public class Templar extends Character {
+import java.util.Random;
+
+public class Templar extends Creature {
     public Templar() {
 	 super("Knight Mikael", 300, 10, 30, 12, 30);
     }
@@ -22,7 +23,7 @@ public class Templar extends Character {
     }
 
     public int righteousJustice() {
-	int damage = 2.25 * getArcane() + 1.75 * getStrength();
+	int damage = (int) (2.25 * getArcane() + 1.75 * getStrength());
 	this.mp -= 5;
 	System.out.println("Templar" + getName() + " does a sweeping holy attack with all his might, dealing a total of " + damage + " damage!");
         return damage;
@@ -41,6 +42,7 @@ public class Templar extends Character {
     }
     
     @Override public void rollDice() {
+	    Random random = new Random();
             this.hp += random.nextInt(0) + 10;
             this.strength += random.nextInt(0) + 15;
             this.agility += random.nextInt(0) + 20;

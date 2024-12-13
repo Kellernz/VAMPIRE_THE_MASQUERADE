@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package com.keller.vampireTheMasquered;
+package com.keller.vampireTheMasquerade;
 
 import java.util.Scanner;
 
@@ -13,19 +12,18 @@ import java.util.Scanner;
  */
 
  public class Combat {
-     private Character player;
-     private Character enemy;
+     private Creature player;
+     private Creature enemy;
      private Scanner sc;
 
      private boolean isPlayerTurn;
 
-     public Combat(Character player, character enemy, Scanner sc) {
+     public Combat(Creature player, Creature enemy, Scanner sc) {
        this.player	= player;
        this.enemy=enemy;
        this.sc=sc;
        isPlayerTurn = this.player.getAgility() > this.enemy.getAgility();
      }
-
 
      public void gangrelAction(Gangrel gangrel)
      {
@@ -37,7 +35,10 @@ import java.util.Scanner;
 		     System.out.println("1. Light attack");
 		     System.out.println("2. Heavy attack");
 		    System.out.println("3. Animal form");
-		    option = sc.nextInt("Choose one of the above (1-3): ");
+		    System.out.print("Choose one of the above (1-3): ");
+
+		    option = sc.nextInt();
+		    sc.nextLine();
 		} while(option < 0 || option > 3);
 
 	     switch (option) {
@@ -63,7 +64,10 @@ import java.util.Scanner;
 		     System.out.println("1. Light attack");
 		     System.out.println("2. Heavy attack");
 		     System.out.println("3. Shadow veil");
-		    option = sc.nextInt("Choose one of the above (1-3): ");
+		     System.out.print("Choose one of the above (1-3): ");
+
+		    option = sc.nextInt();
+		    sc.nextLine();
 		} while(option < 0 || option > 3);
 
 	     switch (option) {
@@ -87,8 +91,10 @@ import java.util.Scanner;
 		     System.out.println("Possible actions: ");
 		     System.out.println("1. Light attack");
 		     System.out.println("2. Heavy attack");
-		    option = sc.nextInt("Choose one of the above (1-3): ");
-		} while(option < 0 || option > 3);
+		     System.out.print("Choose one of the above (1-2): ");
+		     option = sc.nextInt();
+		    sc.nextLine();
+		} while(option < 0 || option > 2);
 
 	     switch (option) {
 		case 1:
@@ -112,6 +118,8 @@ import java.util.Scanner;
 		Lasombra lasombra = (Lasombra) player;
                 lasombraAction(lasombra);
 	     }
+
+	     isPlayerTurn = false;
      }
 
      public void templarAction(Templar templar)
@@ -123,7 +131,7 @@ import java.util.Scanner;
 	} else if (result < 6 || enemy.getMp() < 5) {
 		player.takeDamage(templar.heavyAttack());
 	} else if (result < 11) {
-		player.takeDamge(templar.righteousJustice());
+		player.takeDamage(templar.righteousJustice());
 	} else {
 		templar.divineVowl();
 	}
@@ -149,8 +157,18 @@ import java.util.Scanner;
 	} else if (result < 6 || velkz.getMp() < 20) { 
 		player.takeDamage(velkz.heavyAttack());
 	} else {
-	
+		velkz.animalForm();
 	}
+     }
+
+     public void bakuninAction(Bakunin bakunin)
+     {
+         int result = (int) (Math.random() * 4) + 1;
+	 if (result < 3) {
+		player.takeDamage(bakunin.lightAttack());
+	 } else {
+		player.takeDamage(bakunin.heavyAttack());
+	 }
      }
 
      public void enemyAction()
@@ -164,5 +182,37 @@ import java.util.Scanner;
 	} else {
 		bakuninAction((Bakunin) enemy);
 	}
+	     
+	     isPlayerTurn = true;
+     }
+
+     public void start()
+     {
+	  int playerFullHp = player.getHp();
+
+	     System.out.println("Combat!");
+	  if (isPlayerTurn) {
+		System.out.println("Player does first turn");
+	  } else {
+		System.out.println("Enemy does first turn");
+	  }
+
+          while (player.getHp() > 0 && enemy.getHp() > 0) {
+		if (isPlayerTurn) {
+			player.print();
+			System.out.print("\n\n"); 
+			enemy.print();
+			playerAction();
+		} else {
+			enemyAction();
+		}
+	  }
+
+	  if (player.getHp() > 0) {
+           System.out.println("Player raised a victory.");
+	   player.setHp(playerFullHp);
+	  } else {
+           System.out.println("LMAOOO!! You died.");
+	  }
      }
  };
